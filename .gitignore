@@ -49,13 +49,6 @@ temp
 ehthumbs.db
 Thumbs.db
 
-# Compiled files
-/**/*.js
-/**/*.jsx
-/**/*.map
-/**/*.css
-**/*.scss
-
 # Runtime data
 pids
 *.pid
