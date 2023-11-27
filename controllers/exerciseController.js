@@ -5,7 +5,7 @@ const exerciseController = {
     // get all exercises
     getAllExercises: async (req, res) => {
         const exercises = await exerciseModel.find({}).sort({ createdAt: -1 });
-        res.status(200).json(exercises);
+        return res.status(200).json(exercises);
     },
 
     // get a single exercise
@@ -19,7 +19,7 @@ const exerciseController = {
         if (!exercise) {
             return res.status(404).json({ error: "No such exercise" });
         }
-        res.status(200).json(exercise);
+        return res.status(200).json(exercise);
     },
 
     // create a new exercise
@@ -31,9 +31,9 @@ const exerciseController = {
                 type,
                 description,
             });
-            res.status(200).json(exercise);
+            return res.status(200).json(exercise);
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            return res.status(400).json({ error: error.message });
         }
     },
 
@@ -52,7 +52,7 @@ const exerciseController = {
         if (!exercise) {
             return res.status(404).json({ error: "No such exercise" });
         }
-        res.status(200).json(exercise);
+        return res.status(200).json(exercise);
     },
 
     // delete an exercise
@@ -66,7 +66,7 @@ const exerciseController = {
         if (!exercise) {
             return res.status(404).json({ error: "No such exercise" });
         }
-        res.status(200).json(exercise);
+        return res.status(200).json(exercise);
     },
 };
 

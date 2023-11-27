@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
+const userRoutes = require("./routes/userRoutes");
 const exerciseRoutes = require("./routes/exerciseRoutes");
 
 const app = express();
@@ -19,6 +20,7 @@ mongoose
     .catch((err) => console.log(err));
 
 // routes
+app.use("/api/user", userRoutes);
 app.use("/api/exercises", exerciseRoutes);
 
 app.listen(PORT, () => {
