@@ -2,40 +2,40 @@ const mongoose = require("mongoose");
 // const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
-    {
-        firstName: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-        lastName: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-        email: {
-            type: String,
-            required: true,
-            trim: true,
-            unique: true,
-            lowercase: true,
-        },
-        password: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-        workoutPlanId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "workout_plan",
-        },
-        // Add other relevant fields as needed
-        // For example: profilePicture, dateOfBirth, etc.
+  {
+    firstName: {
+      type: String,
+      required: true,
+      trim: true,
     },
-    {
-        timestamps: true, // Automatically adds createdAt and updatedAt fields
-        versionKey: false,
-    }
+    lastName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
+      lowercase: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    workoutPlanId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "workout_plan",
+    },
+    // Add other relevant fields as needed
+    // For example: profilePicture, dateOfBirth, etc.
+  },
+  {
+    timestamps: true, // Automatically adds createdAt and updatedAt fields
+    versionKey: false,
+  }
 );
 
 // // Password hashing middleware
