@@ -51,7 +51,7 @@ const userController = {
       const token = createToken(newUser._id);
       return res.status(200).json({ newUser, token });
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      return res.status(500).json({ error: error.message });
     }
   },
 
@@ -90,7 +90,7 @@ const userController = {
       const token = createToken(user._id);
       return res.status(200).json({ user, token });
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      return res.status(500).json({ error: error.message });
     }
   },
 
@@ -100,7 +100,7 @@ const userController = {
       // Implement logic to retrieve user profile
       // Ensure the user is authenticated, fetch user details, etc.
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      return res.status(500).json({ error: error.message });
     }
   },
 
@@ -110,7 +110,7 @@ const userController = {
       // Implement update profile logic
       // Check user exists, validate new data, update in DB, etc.
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      return res.status(500).json({ error: error.message });
     }
   },
 
@@ -120,7 +120,7 @@ const userController = {
       // Implement delete account logic
       // Check user exists, delete user from DB, etc.
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      return res.status(500).json({ error: error.message });
     }
   },
 };

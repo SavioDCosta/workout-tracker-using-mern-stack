@@ -12,10 +12,10 @@ router.get("/:id", exerciseController.getExercise);
 // Post a new exercise
 router.post("/", exerciseController.createExercise);
 
-// Update a exercise
+// Update an exercise
 router.patch("/:id", exerciseController.updateExercise);
 
-// Delete a exercise
+// Delete an exercise
 router.delete("/:id", exerciseController.deleteExercise);
 
 module.exports = router;

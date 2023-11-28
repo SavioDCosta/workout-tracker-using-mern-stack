@@ -3,30 +3,38 @@ const mongoose = require("mongoose");
 // Subdocument schema for exercises in the workout
 const workoutExerciseSchema = new mongoose.Schema(
   {
-    exercise: {
+    exerciseId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "exercise",
       required: true,
     },
     sets: {
       type: Number,
-      required: true,
+      default: 0,
     },
-    reps: {
+    reps_from: {
       type: Number,
-      required: true,
+      default: 0,
     },
-    weight: {
+    reps_to: {
       type: Number,
-      required: true,
+      default: 0,
+    },
+    weight_from: {
+      type: Number,
+      default: 0,
+    },
+    weight_to: {
+      type: Number,
+      default: 0,
     },
     distance: {
       type: Number,
-      required: true,
+      default: 0,
     },
     duration: {
       type: Number,
-      required: true,
+      default: 0,
     },
   },
   { _id: false }

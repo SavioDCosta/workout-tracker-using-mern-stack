@@ -1,72 +1,100 @@
 const mongoose = require("mongoose");
 const exerciseModel = require("../models/exerciseModel");
+const workoutModel = require("../models/workoutModel");
 
 const exerciseController = {
   // get all exercises
   getAllExercises: async (req, res) => {
-    const exercises = await exerciseModel.find({}).sort({ createdAt: -1 });
-    return res.status(200).json(exercises);
+    try {
+      const exercises = await exerciseModel.find({}).sort({ createdAt: -1 });
+      return res.status(200).json(exercises);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
   },
 
   // get a single exercise
   getExercise: async (req, res) => {
-    const { id } = req.params;
-    // checks if id parameter is valid or not
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(404).json({ error: "No such exercise" });
+    try {
+      // checks if id parameter is valid or not
+      if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(404).json({ error: "Exercise not found" });
+      }
+      const exercise = await exerciseModel.findById(req.params.id);
+      if (!exercise) {
+        return res.status(404).json({ error: "Exercise not found" });
+      }
+      return res.status(200).json(exercise);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
     }
-    const exercise = await exerciseModel.findById(id);
-    if (!exercise) {
-      return res.status(404).json({ error: "No such exercise" });
-    }
-    return res.status(200).json(exercise);
   },
 
   // create a new exercise
   createExercise: async (req, res) => {
-    const { name, type, description } = req.body;
     try {
-      const exercise = await exerciseModel.create({
-        name,
-        type,
-        description,
-      });
+      const exercise = new exerciseModel(req.body);
+      await exercise.save();
       return res.status(200).json(exercise);
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(500).json({ error: error.message });
     }
   },
 
   // update an exercise
   updateExercise: async (req, res) => {
-    const { id } = req.params;
-    // checks if id parameter is valid or not
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(404).json({ error: "No such exercise" });
+    try {
+      // checks if id parameter is valid or not
+      if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(404).json({ error: "Exercise not found" });
+      }
+      // const { name, type, description } = req.body;
+      const exercise = await exerciseModel.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true, runValidators: true }
+      );
+      if (!exercise) {
+        return res.status(404).json({ error: "Exercise not found" });
+      }
+      return res.status(200).json(exercise);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
     }
-    const { name, type, description } = req.body;
-    const exercise = await exerciseModel.findOneAndUpdate(
-      { _id: id },
-      { ...req.body } // we spread req.body i.e. whatever is passed in the request body. it could be some or all the parameters.
-    );
-    if (!exercise) {
-      return res.status(404).json({ error: "No such exercise" });
-    }
-    return res.status(200).json(exercise);
   },
 
   // delete an exercise
   deleteExercise: async (req, res) => {
-    const { id } = req.params;
-    // checks if id parameter is valid or not
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(404).json({ error: "No such exercise" });
+    try {
+      // checks if id parameter is valid or not
+      if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(404).json({ error: "Exercise not found" });
+      }
+      const exercise = await exerciseModel.findByIdAndDelete(req.params.id);
+      if (!exercise) {
+        return res.status(404).json({ error: "Exercise not found" });
+      }
+      /* 
+        Updating Workouts: 
+            In both the middleware and manual routine, Workout.updateMany() is used to update all workout documents.
+        The $pull Operator: 
+            This operator removes from the exercises array any subdocument 
+            where the exerciseId matches the ID of the deleted exercise.
+        Empty Query Object {}: 
+            This is used in updateMany() to target all workout documents in the collection.
+      */
+      await workoutModel.updateMany(
+        {},
+        {
+          $pull: {
+            exercises: { exerciseId: new mongoose.Types.ObjectId(exercise.id) },
+          },
+        }
+      );
+      return res.status(200).json(exercise);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
     }
-    const exercise = await exerciseModel.findOneAndDelete({ _id: id });
-    if (!exercise) {
-      return res.status(404).json({ error: "No such exercise" });
-    }
-    return res.status(200).json(exercise);
   },
 };
 
