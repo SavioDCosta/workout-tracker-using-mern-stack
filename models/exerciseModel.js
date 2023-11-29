@@ -17,6 +17,10 @@ const exerciseSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    public: {
+      type: Boolean,
+      required: true,
+    },
   },
   {
     timestamps: true,

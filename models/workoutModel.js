@@ -48,6 +48,10 @@ const workoutSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    public: {
+      type: Boolean,
+      required: true,
+    },
     exercises: [workoutExerciseSchema], // Array of workout exercises
     // You can add more fields as needed (e.g., date, duration, etc.)
   },

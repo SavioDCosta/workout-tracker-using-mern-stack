@@ -23,7 +23,7 @@ const workoutPlanSchema = new mongoose.Schema(
     notes: {
       type: String,
     },
-    createdBy: {
+    created_by: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
       required: true,
