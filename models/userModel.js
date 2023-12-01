@@ -36,6 +36,10 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "workout_plan",
     },
+    admin: {
+      type: Boolean,
+      required: true,
+    },
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields
