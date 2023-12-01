@@ -1,10 +1,28 @@
-const mongoose = require("mongoose");
+import mongoose, { Schema, Document, Types } from "mongoose";
+
+// Interface for for exercises in the Workout document
+interface IWorkoutExercise {
+  exerciseId: Types.ObjectId;
+  sets: Number;
+  reps_from: Number;
+  reps_to: Number;
+  weight_from: Number;
+  weight_to: Number;
+  distance: Number;
+  duration: Number;
+}
+
+// Interface for the Workout document
+interface IWorkout extends Document {
+  name: String;
+  exercises: IWorkoutExercise[];
+}
 
 // Subdocument schema for exercises in the workout
-const workoutExerciseSchema = new mongoose.Schema(
+const workoutExerciseSchema = new Schema<IWorkoutExercise>(
   {
     exerciseId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "exercise",
       required: true,
     },
@@ -41,16 +59,12 @@ const workoutExerciseSchema = new mongoose.Schema(
 ); // Prevent MongoDB from creating a default _id for subdocuments
 
 // Main schema for the workout
-const workoutSchema = new mongoose.Schema(
+const workoutSchema = new Schema<IWorkout>(
   {
     name: {
       type: String,
       required: true,
       trim: true,
-    },
-    public: {
-      type: Boolean,
-      required: true,
     },
     exercises: [workoutExerciseSchema], // Array of workout exercises
     // You can add more fields as needed (e.g., date, duration, etc.)
@@ -61,6 +75,6 @@ const workoutSchema = new mongoose.Schema(
   }
 );
 
-const workoutModel = mongoose.model("workout", workoutSchema);
+const workoutModel = mongoose.model<IWorkout>("workout", workoutSchema);
 
-module.exports = workoutModel;
+export default workoutModel;

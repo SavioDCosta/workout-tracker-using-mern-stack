@@ -1,8 +1,8 @@
-const express = require("express");
-const userController = require("../controllers/userController");
-const authMiddleware = require("../middleware/authMiddleware");
+import express, { Router } from "express";
+import userController from "../controllers/userController";
+import authMiddleware from "../middleware/authMiddleware";
 
-const router = express.Router();
+const router: Router = express.Router();
 
 // Register a new user
 router.post("/register", userController.registerUser);
@@ -22,4 +22,4 @@ router.put("/profile", authMiddleware, userController.updateUserProfile);
 // Delete user account (protected route)
 router.delete("/delete", authMiddleware, userController.deleteUserAccount);
 
-module.exports = router;
+export default router;

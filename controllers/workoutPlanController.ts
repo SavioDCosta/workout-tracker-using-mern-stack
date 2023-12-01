@@ -1,9 +1,10 @@
-const mongoose = require("mongoose");
-const workoutPlanModel = require("../models/workoutPlanModel"); // Adjust path as needed
+import mongoose, { Types } from "mongoose";
+import workoutPlanModel from "../models/workoutPlanModel";
+import { Request, Response } from "express";
 
 const workoutPlanController = {
   // Get all workout plans
-  getAllWorkoutPlans: async (req, res) => {
+  getAllWorkoutPlans: async (req: Request, res: Response) => {
     try {
       const workoutPlans = await workoutPlanModel
         .find({})
@@ -17,13 +18,14 @@ const workoutPlanController = {
   },
 
   // Get a single workout plan
-  getWorkoutPlan: async (req, res) => {
+  getWorkoutPlan: async (req: Request, res: Response) => {
     try {
-      if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      const id = req.params.id;
+      if (!Types.ObjectId.isValid(id)) {
         return res.status(404).json({ error: "Workout plan not found" });
       }
       const workoutPlan = await workoutPlanModel
-        .findById(req.params.id)
+        .findById(id)
         .populate("workouts.workoutId")
         .populate("created_by");
       if (!workoutPlan) {
@@ -36,28 +38,26 @@ const workoutPlanController = {
   },
 
   // Create a new workout plan
-  createWorkoutPlan: async (req, res) => {
+  createWorkoutPlan: async (req: Request, res: Response) => {
     try {
-      const workoutPlan = new workoutPlanModel({
-        ...req.body,
-        // createdBy: req.user._id, // Assuming the user's ID is available from the request
-      });
+      const workoutPlan = new workoutPlanModel(req.body);
       await workoutPlan.save();
       return res.status(200).json(workoutPlan);
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(500).json({ error: error.message });
     }
   },
 
   // Update a workout plan
-  updateWorkoutPlan: async (req, res) => {
+  updateWorkoutPlan: async (req: Request, res: Response) => {
     try {
+      const id = req.params.id;
       // checks if id parameter is valid or not
-      if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      if (!Types.ObjectId.isValid(id)) {
         return res.status(404).json({ error: "Workout plan not found" });
       }
       const updatedWorkoutPlan = await workoutPlanModel.findByIdAndUpdate(
-        req.params.id,
+        id,
         req.body,
         { new: true, runValidators: true }
       );
@@ -71,15 +71,14 @@ const workoutPlanController = {
   },
 
   // Delete a workout plan
-  deleteWorkoutPlan: async (req, res) => {
+  deleteWorkoutPlan: async (req: Request, res: Response) => {
     try {
+      const id = req.params.id;
       // checks if id parameter is valid or not
-      if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      if (!Types.ObjectId.isValid(id)) {
         return res.status(404).json({ error: "Workout plan not found" });
       }
-      const workoutPlan = await workoutPlanModel.findByIdAndDelete(
-        req.params.id
-      );
+      const workoutPlan = await workoutPlanModel.findByIdAndDelete(id);
       if (!workoutPlan) {
         return res.status(404).json({ message: "Workout plan not found" });
       }
@@ -90,4 +89,4 @@ const workoutPlanController = {
   },
 };
 
-module.exports = workoutPlanController;
+export default workoutPlanController;

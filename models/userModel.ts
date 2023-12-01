@@ -1,6 +1,22 @@
-const mongoose = require("mongoose");
+import mongoose, { Schema, Document, Types } from "mongoose";
 
-const userSchema = new mongoose.Schema(
+// Interface for the user's workout plan
+interface IWorkoutPlans {
+  workoutPlanId: Types.ObjectId;
+}
+
+// Interface for the User document
+interface IUser extends Document {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  workout_plans: IWorkoutPlans[];
+  current_workout_plan: Types.ObjectId;
+  admin: boolean;
+}
+
+const userSchema = new Schema<IUser>(
   {
     firstName: {
       type: String,
@@ -42,7 +58,7 @@ const userSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, // Automatically adds createdAt and updatedAt fields
+    timestamps: true,
     versionKey: false,
   }
 );
@@ -60,6 +76,6 @@ const userSchema = new mongoose.Schema(
 //     return bcrypt.compare(candidatePassword, this.password);
 // };
 
-const userModel = mongoose.model("user", userSchema);
+const userModel = mongoose.model<IUser>("user", userSchema);
 
-module.exports = userModel;
+export default userModel;

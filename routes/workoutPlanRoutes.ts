@@ -1,7 +1,7 @@
-const express = require("express");
-const workoutPlanController = require("../controllers/workoutPlanController");
+import express, { Router } from "express";
+import workoutPlanController from "../controllers/workoutPlanController";
 
-const router = express.Router();
+const router: Router = express.Router();
 
 // Get workout plans
 router.get("/", workoutPlanController.getAllWorkoutPlans);
@@ -18,4 +18,4 @@ router.patch("/:id", workoutPlanController.updateWorkoutPlan);
 // Delete a workout plan
 router.delete("/:id", workoutPlanController.deleteWorkoutPlan);
 
-module.exports = router;
+export default router;

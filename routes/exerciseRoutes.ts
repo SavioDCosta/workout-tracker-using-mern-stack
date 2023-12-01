@@ -1,7 +1,7 @@
-const express = require("express");
-const exerciseController = require("../controllers/exerciseController");
+import express, { Router } from "express";
+import exerciseController from "../controllers/exerciseController";
 
-const router = express.Router();
+const router: Router = express.Router();
 
 // Get exercises
 router.get("/", exerciseController.getAllExercises);
@@ -18,4 +18,4 @@ router.patch("/:id", exerciseController.updateExercise);
 // Delete an exercise
 router.delete("/:id", exerciseController.deleteExercise);
 
-module.exports = router;
+export default router;

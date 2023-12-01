@@ -1,18 +1,19 @@
-const userModel = require("../models/userModel");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const validator = require("validator");
+import userModel from "../models/userModel"; // Adjust path as needed
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import validator from "validator";
+import { Request, Response } from "express";
 
 // JWT Token Generator
-const createToken = (_id) => {
-  return jwt.sign({ _id }, process.env.JWT_SECRET, {
+const createToken = (_id: string) => {
+  return jwt.sign({ _id }, process.env.JWT_SECRET as string, {
     expiresIn: "24h",
   });
 };
 
 const userController = {
   // Register a new user
-  registerUser: async (req, res) => {
+  registerUser: async (req: Request, res: Response) => {
     try {
       const { firstName, lastName, email, password } = req.body;
       // Validation
@@ -57,7 +58,7 @@ const userController = {
   },
 
   // User login
-  loginUser: async (req, res) => {
+  loginUser: async (req: Request, res: Response) => {
     try {
       const { email, password } = req.body;
       // Validation
@@ -96,7 +97,7 @@ const userController = {
   },
 
   // Get all user profiles
-  getAllUserProfiles: async (req, res) => {
+  getAllUserProfiles: async (req: Request, res: Response) => {
     try {
       const users = await userModel
         .find({})
@@ -110,7 +111,7 @@ const userController = {
   },
 
   // Get a single user profile
-  getUserProfile: async (req, res) => {
+  getUserProfile: async (req: Request, res: Response) => {
     try {
     } catch (error) {
       return res.status(500).json({ error: error.message });
@@ -118,7 +119,7 @@ const userController = {
   },
 
   // Update user profile
-  updateUserProfile: async (req, res) => {
+  updateUserProfile: async (req: Request, res: Response) => {
     try {
       // Implement update profile logic
       // Check user exists, validate new data, update in DB, etc.
@@ -128,7 +129,7 @@ const userController = {
   },
 
   // Delete user account
-  deleteUserAccount: async (req, res) => {
+  deleteUserAccount: async (req: Request, res: Response) => {
     try {
       // Implement delete account logic
       // Check user exists, delete user from DB, etc.
@@ -138,4 +139,4 @@ const userController = {
   },
 };
 
-module.exports = userController;
+export default userController;
