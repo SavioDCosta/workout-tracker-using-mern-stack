@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-// const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
   {
@@ -25,12 +24,18 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    workoutPlanId: {
+    workout_plans: [
+      {
+        workoutPlanId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "workout_plan",
+        },
+      },
+    ],
+    current_workout_plan: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "workout_plan",
     },
-    // Add other relevant fields as needed
-    // For example: profilePicture, dateOfBirth, etc.
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields

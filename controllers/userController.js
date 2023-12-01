@@ -33,6 +33,7 @@ const userController = {
       ) {
         return res.status(400).json({ message: "Password is weak" });
       }
+
       let user = await userModel.findOne({ email });
       if (user) {
         return res.status(400).json({ message: "User already exists" });
@@ -94,11 +95,23 @@ const userController = {
     }
   },
 
-  // Get user profile
+  // Get all user profiles
+  getAllUserProfiles: async (req, res) => {
+    try {
+      const users = await userModel
+        .find({})
+        .populate("workout_plans.workoutPlanId")
+        .populate("current_workout_plan")
+        .sort({ createdAt: -1 });
+      return res.status(200).json(users);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  },
+
+  // Get a single user profile
   getUserProfile: async (req, res) => {
     try {
-      // Implement logic to retrieve user profile
-      // Ensure the user is authenticated, fetch user details, etc.
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }

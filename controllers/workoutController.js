@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const workoutModel = require("../models/workoutModel");
+const workoutPlanModel = require("../models/workoutPlanModel");
 
 const workoutController = {
   // get all workouts
@@ -77,6 +78,23 @@ const workoutController = {
       if (!workout) {
         return res.status(404).json({ error: "Workout not found" });
       }
+      /* 
+        Updating Workout Plans: 
+            In both the middleware and manual routine, Workout.updateMany() is used to update all workout documents.
+        The $pull Operator: 
+            This operator removes from the exercises array any subdocument 
+            where the exerciseId matches the ID of the deleted exercise.
+        Empty Query Object {}: 
+            This is used in updateMany() to target all workout documents in the collection.
+      */
+      await workoutPlanModel.updateMany(
+        {},
+        {
+          $pull: {
+            workouts: { workoutId: new mongoose.Types.ObjectId(workout.id) },
+          },
+        }
+      );
       return res.status(200).json(workout);
     } catch (error) {
       return res.status(500).json({ error: error.message });

@@ -1,5 +1,17 @@
 const mongoose = require("mongoose");
 
+// Subdocument schema for workouts in the workout plan
+const workoutPlanWorkoutsSchema = new mongoose.Schema(
+  {
+    workoutId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "workout",
+      required: true,
+    },
+  },
+  { _id: false }
+); // Prevent MongoDB from creating a default _id for subdocuments
+
 const workoutPlanSchema = new mongoose.Schema(
   {
     name: {
@@ -7,19 +19,7 @@ const workoutPlanSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    public: {
-      type: Boolean,
-      required: true,
-    },
-    workouts: [
-      {
-        workoutId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "workout",
-          required: true,
-        },
-      },
-    ],
+    workouts: [workoutPlanWorkoutsSchema],
     notes: {
       type: String,
     },

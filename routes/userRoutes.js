@@ -10,7 +10,10 @@ router.post("/register", userController.registerUser);
 // User login
 router.post("/login", userController.loginUser);
 
-// Get user profile (protected route)
+// Get all user profiles (protected route)
+router.get("/all", userController.getAllUserProfiles);
+
+// Get a single user profile (protected route)
 router.get("/profile", authMiddleware, userController.getUserProfile);
 
 // Update user profile (protected route)
