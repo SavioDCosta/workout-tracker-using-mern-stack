@@ -1,10 +1,11 @@
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// pages and components
+// Pages and components
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className="App">
       <BrowserRouter>
@@ -17,6 +18,6 @@ function App() {
       </BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;
