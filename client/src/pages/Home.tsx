@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import ExerciseDetails from "../components/ExerciseDetails";
+import ExerciseForm from "../components/ExerciseForm";
 
 // Define a type for the exercise data
 type Exercise = {
@@ -36,6 +37,7 @@ const Home = () => {
             <ExerciseDetails key={exercise._id} exercise={exercise} />
           ))}
       </div>
+      <ExerciseForm />
     </div>
   );
 };
