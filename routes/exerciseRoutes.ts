@@ -18,4 +18,7 @@ router.patch("/:id", exerciseController.updateExercise);
 // Delete an exercise
 router.delete("/:id", exerciseController.deleteExercise);
 
+// // Populate exercises
+// router.get("/populate", exerciseController.populateExercises);
+
 export default router;

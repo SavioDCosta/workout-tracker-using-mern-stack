@@ -1,4 +1,4 @@
-import mongoose, { Types } from "mongoose";
+import { Types } from "mongoose";
 import workoutPlanModel from "../models/workoutPlanModel";
 import { Request, Response } from "express";
 

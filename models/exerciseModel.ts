@@ -4,7 +4,10 @@ import mongoose, { Schema, Document } from "mongoose";
 interface IExercise extends Document {
   name: string;
   type: string;
-  description: string;
+  muscle: string;
+  equipment: string;
+  difficulty: string;
+  instructions: string;
 }
 
 const exerciseSchema = new Schema<IExercise>(
@@ -12,17 +15,28 @@ const exerciseSchema = new Schema<IExercise>(
     name: {
       type: String,
       required: true,
-      trim: true,
       unique: true,
     },
     type: {
       type: String,
       required: true,
-      trim: true,
     },
-    description: {
+    muscle: {
+      type: String,
+      required: true,
+    },
+    equipment: {
+      type: String,
+      required: true,
+    },
+    difficulty: {
+      type: String,
+      required: true,
+    },
+    instructions: {
       type: String,
       default: "",
+      // required: true,
     },
   },
   {

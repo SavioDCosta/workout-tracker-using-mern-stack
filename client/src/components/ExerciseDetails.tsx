@@ -6,8 +6,11 @@ type ExerciseProps = {
     _id: string;
     name: string;
     type: string;
-    description: string;
-    createdAt: Date; // Change the type if the format is different, e.g., Date
+    muscle: string;
+    equipment: string;
+    difficulty: string;
+    instructions: string;
+    createdAt: Date;
   };
 };
 
@@ -16,12 +19,30 @@ const ExerciseDetails: React.FC<ExerciseProps> = ({ exercise }) => {
     <div className="exercise-details">
       <h4>{exercise.name}</h4>
       <p>
-        <strong>{exercise.type}</strong>
+        <strong>Exercise Type: </strong>
+        {exercise.type}
       </p>
       <p>
-        <strong>{exercise.description}</strong>
+        <strong>Muscle: </strong>
+        {exercise.muscle}
       </p>
-      <p>{exercise.createdAt.toString()}</p>
+      <p>
+        <strong>Equipment Required: </strong>
+        {exercise.equipment}
+      </p>
+      <p>
+        <strong>Difficulty: </strong>
+        {exercise.difficulty}
+      </p>
+      <p>
+        <strong>Instructions: </strong>
+        <br />
+        {exercise.instructions}
+      </p>
+      <p>
+        <strong>Created at: </strong>
+        {exercise.createdAt.toString()}
+      </p>
     </div>
   );
 };

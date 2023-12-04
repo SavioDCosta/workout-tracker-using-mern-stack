@@ -6,7 +6,10 @@ type Exercise = {
   _id: string;
   name: string;
   type: string;
-  description: string;
+  muscle: string;
+  equipment: string;
+  difficulty: string;
+  instructions: string;
   createdAt: Date;
 };
 
