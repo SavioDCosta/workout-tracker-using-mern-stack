@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ExerciseDetails from "../components/ExerciseDetails";
 import ExerciseForm from "../components/ExerciseForm";
+import { useExerciseContext } from "../hooks/useExerciseContext";
 
 // Define a type for the exercise data
 type Exercise = {
@@ -14,26 +15,26 @@ type Exercise = {
   createdAt: Date;
 };
 
-const Home = () => {
-  // Use the Exercise type in your state
-  const [exercises, setExercises] = useState<Exercise[] | null>(null);
+const Home: React.FC = () => {
+  const { state, dispatch } = useExerciseContext();
+  const { exercises } = state;
 
   useEffect(() => {
     const fetchExercises = async () => {
       const response = await fetch("/api/exercises/");
       const json = await response.json();
       if (response.ok) {
-        setExercises(json);
+        dispatch({ type: "SET_EXERCISES", payload: json as Exercise[] });
       }
     };
     fetchExercises();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="home">
       <div className="exercises">
         {exercises &&
-          exercises.map((exercise) => (
+          exercises.map((exercise: Exercise) => (
             <ExerciseDetails key={exercise._id} exercise={exercise} />
           ))}
       </div>

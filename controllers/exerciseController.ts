@@ -2,7 +2,7 @@ import { Types } from "mongoose";
 import { Request, Response } from "express";
 import exerciseModel from "../models/exerciseModel";
 import workoutModel from "../models/workoutModel";
-// import axios from "axios";
+import axios from "axios";
 
 const exerciseController = {
   // get all exercises
@@ -107,7 +107,7 @@ const exerciseController = {
   //     const response = await axios.get(
   //       `https://api.api-ninjas.com/v1/exercises?equipment=foam_roll`,
   //       {
-  //         headers: { "X-Api-Key": "6GFX+G3FiHa08HckXJ2QtA==DacYSGaYNhE6XyZP" },
+  //         headers: { "X-Api-Key": process.env.X_API_KEY },
   //       }
   //     );
 

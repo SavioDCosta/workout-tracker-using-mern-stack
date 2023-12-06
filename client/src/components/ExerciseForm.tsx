@@ -1,6 +1,8 @@
 import React, { useState, FormEvent } from "react";
+import { useExerciseContext } from "../hooks/useExerciseContext";
 
 const ExerciseForm: React.FC = () => {
+  const { dispatch } = useExerciseContext();
   const [name, setName] = useState<string>("");
   const [type, setType] = useState<string>("");
   const [muscle, setMuscle] = useState<string>("");
@@ -29,7 +31,6 @@ const ExerciseForm: React.FC = () => {
     const json = await response.json();
     if (!response.ok) {
       setError(json.error);
-      console.log("Error", error);
     } else {
       setName("");
       setType("");
@@ -39,6 +40,7 @@ const ExerciseForm: React.FC = () => {
       setInstructions("");
       setError(null);
       console.log("Exercise added", json);
+      dispatch({ type: "CREATE_EXERCISE", payload: json });
     }
   };
 
