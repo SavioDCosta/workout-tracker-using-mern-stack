@@ -56,7 +56,17 @@ header a {
   font-size: 0.9em;
   color: #555;
 }
-.exercise-details span {
+.edit-button {
+  position: absolute;
+  top: 20px;
+  right: 100px; /* Adjust this value based on your layout and button size */
+  cursor: pointer;
+  background: #f1f1f1;
+  padding: 6px;
+  border-radius: 50%;
+  color: #333;
+}
+.delete-button {
   position: absolute;
   top: 20px;
   right: 20px;

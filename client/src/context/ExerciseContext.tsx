@@ -8,7 +8,8 @@ interface ExerciseState {
 // Define the shape of the action
 type ExerciseAction =
   | { type: "SET_EXERCISES"; payload: any[] } // Replace 'any' with a specific type for exercises
-  | { type: "CREATE_EXERCISE"; payload: any }; // Replace 'any' with a specific type for an exercise
+  | { type: "CREATE_EXERCISE"; payload: any }
+  | { type: "DELETE_EXERCISE"; payload: any };
 
 // Create the context with an initial undefined value
 export const ExerciseContext = createContext<
@@ -32,6 +33,13 @@ export const exerciseReducer = (
     case "CREATE_EXERCISE":
       return {
         exercises: [action.payload, ...(state.exercises || [])],
+      };
+    case "DELETE_EXERCISE":
+      return {
+        exercises:
+          state.exercises?.filter(
+            (exercise) => exercise._id !== action.payload._id
+          ) || [],
       };
     default:
       return state;
