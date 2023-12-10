@@ -52,36 +52,42 @@ const ExerciseForm: React.FC = () => {
         type="text"
         onChange={(e) => setName(e.target.value)}
         value={name}
+        className={name === "" ? "error" : ""}
       />
       <label>Type:</label>
       <input
         type="text"
         onChange={(e) => setType(e.target.value)}
         value={type}
+        className={type === "" ? "error" : ""}
       />
       <label>Muscle:</label>
       <input
         type="text"
         onChange={(e) => setMuscle(e.target.value)}
         value={muscle}
+        className={muscle === "" ? "error" : ""}
       />
       <label>Equipment:</label>
       <input
         type="text"
         onChange={(e) => setEquipment(e.target.value)}
         value={equipment}
+        className={equipment === "" ? "error" : ""}
       />
       <label>Difficulty:</label>
       <input
         type="text"
         onChange={(e) => setDifficulty(e.target.value)}
         value={difficulty}
+        className={difficulty === "" ? "error" : ""}
       />
       <label>Instructions:</label>
       <input
         type="text"
         onChange={(e) => setInstructions(e.target.value)}
         value={instructions}
+        className={instructions === "" ? "error" : ""}
       />
       <button>Add Exercise</button>
       {error && <div className="error">{error}</div>}

@@ -2,6 +2,7 @@ import { Types } from "mongoose";
 import { Request, Response } from "express";
 import exerciseModel from "../models/exerciseModel";
 import workoutModel from "../models/workoutModel";
+import errorHandler from "../middleware/errorHandler";
 import axios from "axios";
 
 const exerciseController = {
@@ -11,7 +12,7 @@ const exerciseController = {
       const exercises = await exerciseModel.find({}).sort({ createdAt: -1 });
       return res.status(200).json(exercises);
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return errorHandler(error, req, res);
     }
   },
 
@@ -29,7 +30,7 @@ const exerciseController = {
       }
       return res.status(200).json(exercise);
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return errorHandler(error, req, res);
     }
   },
 
@@ -40,7 +41,7 @@ const exerciseController = {
       await exercise.save();
       return res.status(200).json(exercise);
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return errorHandler(error, req, res);
     }
   },
 
@@ -62,7 +63,7 @@ const exerciseController = {
       }
       return res.status(200).json(exercise);
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return errorHandler(error, req, res);
     }
   },
 
@@ -97,7 +98,7 @@ const exerciseController = {
       );
       return res.status(200).json(exercise);
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return errorHandler(error, req, res);
     }
   },
 

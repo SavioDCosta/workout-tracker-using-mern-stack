@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 import workoutPlanModel from "../models/workoutPlanModel";
 import { Request, Response } from "express";
+import errorHandler from "../middleware/errorHandler";
 
 const workoutPlanController = {
   // Get all workout plans
@@ -13,7 +14,7 @@ const workoutPlanController = {
         .sort({ createdAt: -1 });
       return res.status(200).json(workoutPlans);
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return errorHandler(error, req, res);
     }
   },
 
@@ -33,7 +34,7 @@ const workoutPlanController = {
       }
       return res.status(200).json(workoutPlan);
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return errorHandler(error, req, res);
     }
   },
 
@@ -44,7 +45,7 @@ const workoutPlanController = {
       await workoutPlan.save();
       return res.status(200).json(workoutPlan);
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return errorHandler(error, req, res);
     }
   },
 
@@ -66,7 +67,7 @@ const workoutPlanController = {
       }
       return res.status(200).json(updatedWorkoutPlan);
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return errorHandler(error, req, res);
     }
   },
 
@@ -84,7 +85,7 @@ const workoutPlanController = {
       }
       return res.status(200).json(workoutPlan);
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return errorHandler(error, req, res);
     }
   },
 };

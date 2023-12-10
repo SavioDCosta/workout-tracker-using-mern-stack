@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import validator from "validator";
 import { Request, Response } from "express";
+import errorHandler from "../middleware/errorHandler";
 
 // JWT Token Generator
 const createToken = (_id: string) => {
@@ -53,7 +54,7 @@ const userController = {
       const token = createToken(newUser._id);
       return res.status(200).json({ newUser, token });
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return errorHandler(error, req, res);
     }
   },
 
@@ -92,7 +93,7 @@ const userController = {
       const token = createToken(user._id);
       return res.status(200).json({ user, token });
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return errorHandler(error, req, res);
     }
   },
 
@@ -106,7 +107,7 @@ const userController = {
         .sort({ createdAt: -1 });
       return res.status(200).json(users);
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return errorHandler(error, req, res);
     }
   },
 
@@ -114,7 +115,7 @@ const userController = {
   getUserProfile: async (req: Request, res: Response) => {
     try {
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return errorHandler(error, req, res);
     }
   },
 
@@ -124,7 +125,7 @@ const userController = {
       // Implement update profile logic
       // Check user exists, validate new data, update in DB, etc.
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return errorHandler(error, req, res);
     }
   },
 
@@ -134,7 +135,7 @@ const userController = {
       // Implement delete account logic
       // Check user exists, delete user from DB, etc.
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return errorHandler(error, req, res);
     }
   },
 };
