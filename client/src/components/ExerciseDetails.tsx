@@ -1,5 +1,9 @@
 import React from "react";
 import { useExerciseContext } from "../hooks/useExerciseContext";
+import {
+  // format, parseISO,
+  formatDistanceToNow,
+} from "date-fns";
 
 // Define the type for the exercise prop
 type ExerciseProps = {
@@ -53,14 +57,21 @@ const ExerciseDetails: React.FC<ExerciseProps> = ({ exercise }) => {
         {exercise.instructions}
       </p>
       <p>
-        <strong>Created at: </strong>
-        {exercise.createdAt.toString()}
+        <strong>Created: </strong>
+        {/* {format(parseISO(exercise.createdAt.toString()), "MM-dd-yyyy HH:mm")} */}
+        {formatDistanceToNow(new Date(exercise.createdAt), { addSuffix: true })}
       </p>
-      <span className="edit-button" onClick={handleClick}>
-        Edit
+      <span
+        className="material-symbols-outlined edit-button"
+        onClick={handleClick}
+      >
+        edit
       </span>
-      <span className="delete-button" onClick={handleClick}>
-        Delete
+      <span
+        className="material-symbols-outlined delete-button"
+        onClick={handleClick}
+      >
+        delete
       </span>
     </div>
   );
