@@ -1,24 +1,34 @@
 import { ReactNode, createContext, useReducer, Dispatch } from "react";
 
+type Exercise = {
+  _id: string;
+  name: string;
+  type: string;
+  muscle: string;
+  equipment: string;
+  difficulty: string;
+  instructions: string;
+  createdAt: Date;
+};
+
 // Define the shape of the exercise state
-interface ExerciseState {
-  exercises: any[] | null; // Replace 'any' with a more specific type if possible
-}
+type ExerciseState = {
+  exercises: Exercise[] | null;
+};
 
 // Define the shape of the action
 type ExerciseAction =
-  | { type: "SET_EXERCISES"; payload: any[] } // Replace 'any' with a specific type for exercises
-  | { type: "CREATE_EXERCISE"; payload: any }
-  | { type: "DELETE_EXERCISE"; payload: any };
+  | { type: "SET_EXERCISES"; payload: Exercise[] }
+  | { type: "CREATE_EXERCISE"; payload: Exercise }
+  | { type: "DELETE_EXERCISE"; payload: Exercise };
+
+interface ExerciseContext {
+  state: ExerciseState;
+  dispatch: Dispatch<ExerciseAction>;
+}
 
 // Create the context with an initial undefined value
-export const ExerciseContext = createContext<
-  | {
-      state: ExerciseState;
-      dispatch: Dispatch<ExerciseAction>;
-    }
-  | undefined
->(undefined);
+export const ExerciseContext = createContext<ExerciseContext | null>(null);
 
 // Reducer function
 export const exerciseReducer = (

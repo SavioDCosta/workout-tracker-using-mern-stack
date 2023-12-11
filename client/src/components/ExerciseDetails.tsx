@@ -6,7 +6,7 @@ import {
 } from "date-fns";
 
 // Define the type for the exercise prop
-type ExerciseProps = {
+export type ExerciseProps = {
   exercise: {
     _id: string;
     name: string;
