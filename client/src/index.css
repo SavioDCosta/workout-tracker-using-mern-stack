@@ -33,7 +33,7 @@ header a {
 }
 
 /* homepage */
-.home {
+.exercise-page {
   display: grid;
   grid-template-columns: 3fr 1fr;
   gap: 100px;
@@ -110,4 +110,16 @@ div.error {
 }
 input.error {
   border: 1px solid var(--error);
+}
+.exercises-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.add-button {
+  cursor: pointer;
+  background: var(--primary);
+  padding: 6px;
+  border-radius: 50%;
+  color: #fff;
 }

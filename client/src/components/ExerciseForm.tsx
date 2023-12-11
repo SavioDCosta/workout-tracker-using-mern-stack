@@ -1,16 +1,66 @@
-import React, { useState, FormEvent } from "react";
+import React, { FormEvent, useEffect } from "react";
 import { useExerciseContext } from "../hooks/useExerciseContext";
+import { Exercise } from "../pages/ExercisePage";
 
-const ExerciseForm: React.FC = () => {
-  const { dispatch } = useExerciseContext();
-  const [name, setName] = useState<string>("");
-  const [type, setType] = useState<string>("");
-  const [muscle, setMuscle] = useState<string>("");
-  const [equipment, setEquipment] = useState<string>("");
-  const [difficulty, setDifficulty] = useState<string>("");
-  const [instructions, setInstructions] = useState<string>("");
-  const [error, setError] = useState<string | null>(null);
-  const [emptyFields, setEmptyFields] = useState<string[]>([]);
+interface ExerciseFormProps {
+  name: string;
+  setName: (value: string) => void;
+  type: string;
+  setType: (value: string) => void;
+  muscle: string;
+  setMuscle: (value: string) => void;
+  equipment: string;
+  setEquipment: (value: string) => void;
+  difficulty: string;
+  setDifficulty: (value: string) => void;
+  instructions: string;
+  setInstructions: (value: string) => void;
+  buttonName: "Add" | "Edit";
+  setButtonName: (value: "Add" | "Edit") => void;
+  error: string | null;
+  setError: (value: string | null) => void;
+  emptyFields: string[];
+  setEmptyFields: (value: string[] | []) => void;
+  setEditingExercise: (exercise: Exercise | null) => void;
+}
+
+const ExerciseForm: React.FC<ExerciseFormProps> = ({
+  name,
+  setName,
+  type,
+  setType,
+  muscle,
+  setMuscle,
+  equipment,
+  setEquipment,
+  difficulty,
+  setDifficulty,
+  instructions,
+  setInstructions,
+  buttonName,
+  setButtonName,
+  error,
+  setError,
+  emptyFields,
+  setEmptyFields,
+  setEditingExercise,
+}) => {
+  const { dispatch, editingExercise } = useExerciseContext();
+
+  useEffect(() => {
+    if (editingExercise) {
+      setName(editingExercise.name);
+      setType(editingExercise.type);
+      setMuscle(editingExercise.muscle);
+      setEquipment(editingExercise.equipment);
+      setDifficulty(editingExercise.difficulty);
+      setInstructions(editingExercise.instructions);
+      setError(null);
+      setEmptyFields([]);
+      setEditingExercise(editingExercise);
+      setButtonName("Edit");
+    }
+  }, [editingExercise]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -42,34 +92,62 @@ const ExerciseForm: React.FC = () => {
       emptyFields.push("instructions");
     }
 
-    const response = await fetch("/api/exercises/", {
-      method: "POST",
-      body: JSON.stringify(exercise),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const json = await response.json();
-    if (!response.ok) {
-      setError(json.error);
-      setEmptyFields(emptyFields);
+    if (editingExercise) {
+      const response = await fetch("/api/exercises/" + editingExercise._id, {
+        method: "PATCH",
+        body: JSON.stringify(exercise),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const json = await response.json();
+      if (!response.ok) {
+        setError(json.error);
+        setEmptyFields(emptyFields);
+      } else {
+        setName("");
+        setType("");
+        setMuscle("");
+        setEquipment("");
+        setDifficulty("");
+        setInstructions("");
+        setError(null);
+        setEmptyFields([]);
+        setEditingExercise(null);
+        setButtonName("Add");
+        console.log("Exercise edited", json);
+        dispatch({ type: "UPDATE_EXERCISE", payload: json });
+      }
     } else {
-      setName("");
-      setType("");
-      setMuscle("");
-      setEquipment("");
-      setDifficulty("");
-      setInstructions("");
-      setError(null);
-      setEmptyFields([]);
-      console.log("Exercise added", json);
-      dispatch({ type: "CREATE_EXERCISE", payload: json });
+      const response = await fetch("/api/exercises/", {
+        method: "POST",
+        body: JSON.stringify(exercise),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const json = await response.json();
+      if (!response.ok) {
+        setError(json.error);
+        setEmptyFields(emptyFields);
+      } else {
+        setName("");
+        setType("");
+        setMuscle("");
+        setEquipment("");
+        setDifficulty("");
+        setInstructions("");
+        setError(null);
+        setEmptyFields([]);
+        console.log("Exercise added", json);
+        dispatch({ type: "CREATE_EXERCISE", payload: json });
+      }
     }
   };
 
   return (
     <form className="create" onSubmit={handleSubmit}>
-      <h3>Add a new exercise</h3>
+      <h3>{buttonName} an exercise</h3>
       <label>Name:</label>
       <input
         type="text"
@@ -112,7 +190,7 @@ const ExerciseForm: React.FC = () => {
         value={instructions}
         className={emptyFields.includes("instructions") ? "error" : ""}
       />
-      <button>Add Exercise</button>
+      <button>{buttonName} Exercise</button>
       {error && <div className="error">{error}</div>}
     </form>
   );

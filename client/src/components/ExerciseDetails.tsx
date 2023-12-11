@@ -4,6 +4,7 @@ import {
   // format, parseISO,
   formatDistanceToNow,
 } from "date-fns";
+import { Exercise } from "../pages/ExercisePage";
 
 // Define the type for the exercise prop
 export type ExerciseProps = {
@@ -20,9 +21,19 @@ export type ExerciseProps = {
 };
 
 const ExerciseDetails: React.FC<ExerciseProps> = ({ exercise }) => {
-  const { dispatch } = useExerciseContext();
+  const { dispatch, setEditingExercise } = useExerciseContext();
 
-  const handleClick = async () => {
+  const handleEdit = async () => {
+    const response = await fetch("/api/exercises/" + exercise._id, {
+      method: "GET",
+    });
+    const json = await response.json();
+    if (response.ok) {
+      setEditingExercise(json as Exercise);
+    }
+  };
+
+  const handleDelete = async () => {
     const response = await fetch("/api/exercises/" + exercise._id, {
       method: "DELETE",
     });
@@ -63,13 +74,13 @@ const ExerciseDetails: React.FC<ExerciseProps> = ({ exercise }) => {
       </p>
       <span
         className="material-symbols-outlined edit-button"
-        onClick={handleClick}
+        onClick={handleEdit}
       >
         edit
       </span>
       <span
         className="material-symbols-outlined delete-button"
-        onClick={handleClick}
+        onClick={handleDelete}
       >
         delete
       </span>

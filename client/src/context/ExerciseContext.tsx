@@ -1,15 +1,11 @@
-import { ReactNode, createContext, useReducer, Dispatch } from "react";
-
-type Exercise = {
-  _id: string;
-  name: string;
-  type: string;
-  muscle: string;
-  equipment: string;
-  difficulty: string;
-  instructions: string;
-  createdAt: Date;
-};
+import {
+  ReactNode,
+  createContext,
+  useReducer,
+  Dispatch,
+  useState,
+} from "react";
+import { Exercise } from "../pages/ExercisePage";
 
 // Define the shape of the exercise state
 type ExerciseState = {
@@ -20,15 +16,18 @@ type ExerciseState = {
 type ExerciseAction =
   | { type: "SET_EXERCISES"; payload: Exercise[] }
   | { type: "CREATE_EXERCISE"; payload: Exercise }
+  | { type: "UPDATE_EXERCISE"; payload: Exercise }
   | { type: "DELETE_EXERCISE"; payload: Exercise };
 
-interface ExerciseContext {
+interface ExerciseContextProps {
   state: ExerciseState;
   dispatch: Dispatch<ExerciseAction>;
+  editingExercise: Exercise | null;
+  setEditingExercise: (exercise: Exercise | null) => void;
 }
 
 // Create the context with an initial undefined value
-export const ExerciseContext = createContext<ExerciseContext | null>(null);
+export const ExerciseContext = createContext<ExerciseContextProps | null>(null);
 
 // Reducer function
 export const exerciseReducer = (
@@ -43,6 +42,13 @@ export const exerciseReducer = (
     case "CREATE_EXERCISE":
       return {
         exercises: [action.payload, ...(state.exercises || [])],
+      };
+    case "UPDATE_EXERCISE":
+      return {
+        exercises:
+          state.exercises?.map((exercise) =>
+            exercise._id === action.payload._id ? action.payload : exercise
+          ) || [],
       };
     case "DELETE_EXERCISE":
       return {
@@ -67,9 +73,16 @@ export const ExerciseContextProvider: React.FC<
   const [state, dispatch] = useReducer(exerciseReducer, {
     exercises: null,
   });
-
+  const [editingExercise, setEditingExercise] = useState<Exercise | null>(null);
   return (
-    <ExerciseContext.Provider value={{ state, dispatch }}>
+    <ExerciseContext.Provider
+      value={{
+        state,
+        dispatch,
+        editingExercise,
+        setEditingExercise,
+      }}
+    >
       {children}
     </ExerciseContext.Provider>
   );
