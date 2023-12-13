@@ -63,19 +63,6 @@ const userSchema = new Schema<IUser>(
   }
 );
 
-// // Password hashing middleware
-// userSchema.pre("save", async function (next) {
-//     if (this.isModified("password")) {
-//         this.password = await bcrypt.hash(this.password, 8);
-//     }
-//     next();
-// });
-
-// // Instance method to compare hashed password
-// userSchema.methods.comparePassword = async function (candidatePassword) {
-//     return bcrypt.compare(candidatePassword, this.password);
-// };
-
 const userModel = mongoose.model<IUser>("user", userSchema);
 
 export default userModel;

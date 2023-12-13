@@ -3,7 +3,6 @@ import ExerciseDetails from "../components/ExerciseDetails";
 import ExerciseForm from "../components/ExerciseForm";
 import { useExerciseContext } from "../hooks/useExerciseContext";
 
-// Define a type for the exercise data
 export type Exercise = {
   _id: string;
   name: string;

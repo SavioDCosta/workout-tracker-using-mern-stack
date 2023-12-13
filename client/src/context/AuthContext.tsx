@@ -19,9 +19,7 @@ type AuthState = {
 };
 
 // Define the shape of the action
-type AuthAction =
-  | { type: "LOGIN"; payload: User }
-  | { type: "LOGOUT"; payload: User };
+type AuthAction = { type: "LOGIN"; payload: User } | { type: "LOGOUT" };
 
 interface AuthContextProps {
   state: AuthState;

@@ -19,10 +19,10 @@ const userController = {
       const { firstName, lastName, email, password } = req.body;
       // Validation
       if (!firstName || !lastName || !email || !password) {
-        return res.status(400).json({ message: "All fields must be filled" });
+        return res.status(400).json({ error: "All fields must be filled" });
       }
       if (!validator.isEmail(email)) {
-        return res.status(400).json({ message: "Invalid email format" });
+        return res.status(400).json({ error: "Invalid email format" });
       }
       if (
         !validator.isStrongPassword(password, {
@@ -33,12 +33,12 @@ const userController = {
           minSymbols: 1,
         })
       ) {
-        return res.status(400).json({ message: "Password is weak" });
+        return res.status(400).json({ error: "Password is weak" });
       }
 
       let user = await userModel.findOne({ email });
       if (user) {
-        return res.status(400).json({ message: "User already exists" });
+        return res.status(400).json({ error: "User already exists" });
       }
       // Password hashing
       const hashedPassword = await bcrypt.hash(password, 8);
@@ -48,6 +48,7 @@ const userController = {
         lastName,
         email,
         password: hashedPassword,
+        admin: false,
       });
       // Save the new user
       await newUser.save();
@@ -64,10 +65,10 @@ const userController = {
       const { email, password } = req.body;
       // Validation
       if (!email || !password) {
-        return res.status(400).json({ message: "All fields must be filled" });
+        return res.status(400).json({ error: "All fields must be filled" });
       }
       if (!validator.isEmail(email)) {
-        return res.status(400).json({ message: "Invalid email format" });
+        return res.status(400).json({ error: "Invalid email format" });
       }
       if (
         !validator.isStrongPassword(password, {
@@ -78,17 +79,15 @@ const userController = {
           minSymbols: 1,
         })
       ) {
-        return res.status(400).json({ message: "Password is weak" });
+        return res.status(400).json({ error: "Password is weak" });
       }
       let user = await userModel.findOne({ email });
       if (!user) {
-        return res.status(400).json({ message: "This account doesn't exist" });
+        return res.status(400).json({ error: "This account doesn't exist" });
       }
       const comparePasswords = await bcrypt.compare(password, user.password);
       if (!comparePasswords) {
-        return res
-          .status(400)
-          .json({ message: "Incorrect email or password " });
+        return res.status(400).json({ error: "Incorrect email or password " });
       }
       const token = createToken(user._id);
       return res.status(200).json({ user, token });
