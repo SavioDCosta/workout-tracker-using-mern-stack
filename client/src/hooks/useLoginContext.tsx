@@ -22,8 +22,8 @@ const useLoginContext = () => {
       setIsLoading(false);
       setError(json.error);
     } else {
-      // save the user to local storage (jwt and user)
-      localStorage.setItem("user", JSON.stringify(json));
+      // save the user to local storage (user and token)
+      localStorage.setItem("userAndToken", JSON.stringify(json));
       // update authContext
       dispatch({ type: "LOGIN", payload: json });
       setIsLoading(false);

@@ -28,7 +28,7 @@ const useRegisterContext = () => {
       setError(json.error);
     } else {
       // save the user to local storage (jwt and user)
-      localStorage.setItem("user", JSON.stringify(json));
+      localStorage.setItem("userAndToken", JSON.stringify(json));
       // update authContext
       dispatch({ type: "LOGIN", payload: json });
       setIsLoading(false);

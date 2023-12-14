@@ -1,25 +1,34 @@
-import { Dispatch, ReactNode, createContext, useReducer } from "react";
+import {
+  Dispatch,
+  ReactNode,
+  createContext,
+  useReducer,
+  useEffect,
+} from "react";
 
 // Define a type for the exercise data
-export type User = {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  // current_workout_plan: string;
-  // workout_plans: string[];
-  admin: boolean;
-  createdAt: Date;
+export type UserAndToken = {
+  user: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    // current_workout_plan: string;
+    // workout_plans: string[];
+    admin: boolean;
+    createdAt: Date;
+  };
+  token: string | null;
 };
 
 // Define the shape of the exercise state
 type AuthState = {
-  user: User | null;
+  userAndToken: UserAndToken | null;
 };
 
 // Define the shape of the action
-type AuthAction = { type: "LOGIN"; payload: User } | { type: "LOGOUT" };
+type AuthAction = { type: "LOGIN"; payload: UserAndToken } | { type: "LOGOUT" };
 
 interface AuthContextProps {
   state: AuthState;
@@ -34,9 +43,9 @@ export const authReducer = (
 ): AuthState => {
   switch (action.type) {
     case "LOGIN":
-      return { user: action.payload };
+      return { userAndToken: action.payload };
     case "LOGOUT":
-      return { user: null };
+      return { userAndToken: null };
     default:
       return state;
   }
@@ -50,7 +59,16 @@ interface AuthContextProviderProps {
 export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
   children,
 }) => {
-  const [state, dispatch] = useReducer(authReducer, { user: null });
+  const [state, dispatch] = useReducer(authReducer, { userAndToken: null });
+
+  // executes once when app loads for the first time
+  useEffect(() => {
+    const userAndToken = JSON.parse(localStorage.getItem("userAndToken")!);
+    if (userAndToken) {
+      dispatch({ type: "LOGIN", payload: userAndToken });
+    }
+  }, []);
+
   console.log("AuthContext state: ", state);
   return (
     <AuthContext.Provider value={{ state, dispatch }}>
