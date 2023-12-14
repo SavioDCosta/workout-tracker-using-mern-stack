@@ -1,6 +1,7 @@
 import React, { FormEvent, useEffect } from "react";
 import { useExerciseContext } from "../hooks/useExerciseContext";
 import { Exercise } from "../pages/ExercisePage";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 interface ExerciseFormProps {
   name: string;
@@ -46,6 +47,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({
   setEditingExercise,
 }) => {
   const { dispatch, editingExercise } = useExerciseContext();
+  const userState = useAuthContext();
 
   useEffect(() => {
     if (editingExercise) {
@@ -64,6 +66,10 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (!userState.state.userAndToken) {
+      setError("You must be logged in");
+      return;
+    }
     const exercise = {
       name,
       type,
@@ -98,6 +104,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({
         body: JSON.stringify(exercise),
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${userState.state.userAndToken.token}`,
         },
       });
       const json = await response.json();
@@ -124,6 +131,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({
         body: JSON.stringify(exercise),
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${userState.state.userAndToken.token}`,
         },
       });
       const json = await response.json();

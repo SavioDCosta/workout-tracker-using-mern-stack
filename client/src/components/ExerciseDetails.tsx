@@ -5,6 +5,7 @@ import {
   formatDistanceToNow,
 } from "date-fns";
 import { Exercise } from "../pages/ExercisePage";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 // Define the type for the exercise prop
 export type ExerciseProps = {
@@ -22,10 +23,17 @@ export type ExerciseProps = {
 
 const ExerciseDetails: React.FC<ExerciseProps> = ({ exercise }) => {
   const { dispatch, setEditingExercise } = useExerciseContext();
+  const userState = useAuthContext();
 
   const handleEdit = async () => {
+    if (!userState.state.userAndToken) {
+      return;
+    }
     const response = await fetch("/api/exercises/" + exercise._id, {
       method: "GET",
+      headers: {
+        Authorization: `Bearer ${userState.state.userAndToken.token}`,
+      },
     });
     const json = await response.json();
     if (response.ok) {
@@ -34,8 +42,14 @@ const ExerciseDetails: React.FC<ExerciseProps> = ({ exercise }) => {
   };
 
   const handleDelete = async () => {
+    if (!userState.state.userAndToken) {
+      return;
+    }
     const response = await fetch("/api/exercises/" + exercise._id, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${userState.state.userAndToken.token}`,
+      },
     });
     const json = await response.json();
     if (response.ok) {

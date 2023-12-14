@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ExerciseDetails from "../components/ExerciseDetails";
 import ExerciseForm from "../components/ExerciseForm";
 import { useExerciseContext } from "../hooks/useExerciseContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export type Exercise = {
   _id: string;
@@ -16,6 +17,7 @@ export type Exercise = {
 
 export const ExercisePage: React.FC = () => {
   const { state, dispatch, setEditingExercise } = useExerciseContext();
+  const userState = useAuthContext();
   const { exercises } = state;
 
   const [name, setName] = useState<string>("");
@@ -42,14 +44,20 @@ export const ExercisePage: React.FC = () => {
 
   useEffect(() => {
     const fetchExercises = async () => {
-      const response = await fetch("/api/exercises/");
+      const response = await fetch("/api/exercises", {
+        headers: {
+          Authorization: `Bearer ${userState.state.userAndToken?.token}`,
+        },
+      });
       const json = await response.json();
       if (response.ok) {
         dispatch({ type: "SET_EXERCISES", payload: json as Exercise[] });
       }
     };
-    fetchExercises();
-  }, [dispatch]);
+    if (userState.state.userAndToken) {
+      fetchExercises();
+    }
+  }, [dispatch, userState]);
 
   return (
     <div className="exercise-page">

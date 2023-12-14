@@ -1,4 +1,4 @@
-import userModel from "../models/userModel"; // Adjust path as needed
+import userModel from "../models/userModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import validator from "validator";

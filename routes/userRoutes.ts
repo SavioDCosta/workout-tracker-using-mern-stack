@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 import userController from "../controllers/userController";
-import authMiddleware from "../middleware/authMiddleware";
+import authCheckMiddleware from "../middleware/authCheckMiddleware";
 
 const router: Router = express.Router();
 
@@ -14,12 +14,12 @@ router.post("/login", userController.loginUser);
 router.get("/all", userController.getAllUserProfiles);
 
 // Get a single user profile (protected route)
-router.get("/profile", authMiddleware, userController.getUserProfile);
+router.get("/profile", authCheckMiddleware, userController.getUserProfile);
 
 // Update user profile (protected route)
-router.put("/profile", authMiddleware, userController.updateUserProfile);
+router.put("/profile", authCheckMiddleware, userController.updateUserProfile);
 
 // Delete user account (protected route)
-router.delete("/delete", authMiddleware, userController.deleteUserAccount);
+router.delete("/delete", authCheckMiddleware, userController.deleteUserAccount);
 
 export default router;
