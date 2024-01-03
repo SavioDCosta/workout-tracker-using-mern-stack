@@ -5,22 +5,7 @@ import {
   useReducer,
   useEffect,
 } from "react";
-
-// Define a type for the exercise data
-export type UserAndToken = {
-  user: {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    // current_workout_plan: string;
-    // workout_plans: string[];
-    admin: boolean;
-    createdAt: Date;
-  };
-  token: string | null;
-};
+import { UserAndToken } from "../utils/UserAndTokenProps";
 
 // Define the shape of the exercise state
 type AuthState = {

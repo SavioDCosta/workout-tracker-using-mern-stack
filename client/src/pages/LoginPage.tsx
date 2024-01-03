@@ -1,13 +1,6 @@
 import { FormEvent, useState } from "react";
 import useLoginContext from "../hooks/useLoginContext";
 
-export type LoginUser = {
-  _id: string;
-  email: string;
-  password: string;
-  createdAt: Date;
-};
-
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");

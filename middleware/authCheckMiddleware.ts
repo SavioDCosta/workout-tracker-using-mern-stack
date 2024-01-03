@@ -14,8 +14,6 @@ const authCheckMiddleware = async (
     const token = authorization.replace("Bearer ", "");
     try {
       const _id = jwt.verify(token, process.env.JWT_SECRET as jwt.Secret);
-      console.log("AuthMiddleware: ", _id);
-      // req.user =
       await userModel.findOne({ _id }).select("_id");
       next();
     } catch (error) {

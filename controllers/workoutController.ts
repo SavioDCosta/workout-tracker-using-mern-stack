@@ -10,7 +10,7 @@ const workoutController = {
     try {
       const workouts = await workoutModel
         .find({})
-        .populate("exercises.exerciseId")
+        .populate("exercises.exercise")
         .sort({ createdAt: -1 });
       return res.status(200).json(workouts);
     } catch (error) {
@@ -28,7 +28,7 @@ const workoutController = {
       }
       const workout = await workoutModel
         .findById(id)
-        .populate("exercises.exerciseId");
+        .populate("exercises.exercise");
       if (!workout) {
         return res.status(404).json({ error: "Workout not found" });
       }

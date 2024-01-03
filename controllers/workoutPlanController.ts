@@ -9,8 +9,8 @@ const workoutPlanController = {
     try {
       const workoutPlans = await workoutPlanModel
         .find({})
-        .populate("workouts.workoutId")
-        .populate("created_by")
+        .populate("workouts.workout")
+        .populate("createdBy")
         .sort({ createdAt: -1 });
       return res.status(200).json(workoutPlans);
     } catch (error) {
@@ -27,12 +27,35 @@ const workoutPlanController = {
       }
       const workoutPlan = await workoutPlanModel
         .findById(id)
-        .populate("workouts.workoutId")
-        .populate("created_by");
+        .populate("workouts.workout")
+        .populate("createdBy");
       if (!workoutPlan) {
         return res.status(404).json({ message: "Workout plan not found" });
       }
       return res.status(200).json(workoutPlan);
+    } catch (error) {
+      return errorHandler(error, req, res);
+    }
+  },
+
+  // Get a single workout plan of user
+  getWorkoutPlansOfUser: async (req: Request, res: Response) => {
+    try {
+      const id = req.params.id;
+      if (!Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: "Invalid user ID" });
+      }
+      const workoutPlans = await workoutPlanModel
+        .find({ createdBy: id })
+        .populate("workouts.workout")
+        .populate({
+          path: "createdBy",
+          select: "_id firstName lastName email",
+        });
+      if (!workoutPlans) {
+        return res.status(404).json({ message: "Workout plan not found" });
+      }
+      return res.status(200).json(workoutPlans);
     } catch (error) {
       return errorHandler(error, req, res);
     }

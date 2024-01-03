@@ -1,7 +1,7 @@
 import React, { FormEvent, useEffect } from "react";
 import { useExerciseContext } from "../hooks/useExerciseContext";
-import { Exercise } from "../pages/ExercisePage";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { Exercise } from "../utils/ExerciseProps";
 
 interface ExerciseFormProps {
   name: string;

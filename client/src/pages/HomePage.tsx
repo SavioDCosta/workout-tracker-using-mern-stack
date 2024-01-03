@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ExercisePage } from "./ExercisePage";
+import { WorkoutPlanPage } from "./WorkoutPlanPage";
 
 const HomePage: React.FC = () => {
-  return <ExercisePage />;
+  return <WorkoutPlanPage />;
 };
 
 export default HomePage;

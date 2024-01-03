@@ -1,16 +1,6 @@
 import { FormEvent, useState } from "react";
 import useRegisterContext from "../hooks/useRegisterContext";
 
-export type RegisterUser = {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  admin: boolean;
-  createdAt: Date;
-};
-
 const RegisterPage: React.FC = () => {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");

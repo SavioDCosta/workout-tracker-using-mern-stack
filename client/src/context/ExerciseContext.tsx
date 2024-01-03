@@ -5,7 +5,7 @@ import {
   Dispatch,
   useState,
 } from "react";
-import { Exercise } from "../pages/ExercisePage";
+import { Exercise } from "../utils/ExerciseProps";
 
 // Define the shape of the exercise state
 type ExerciseState = {

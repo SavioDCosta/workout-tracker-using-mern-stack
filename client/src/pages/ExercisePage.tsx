@@ -3,17 +3,7 @@ import ExerciseDetails from "../components/ExerciseDetails";
 import ExerciseForm from "../components/ExerciseForm";
 import { useExerciseContext } from "../hooks/useExerciseContext";
 import { useAuthContext } from "../hooks/useAuthContext";
-
-export type Exercise = {
-  _id: string;
-  name: string;
-  type: string;
-  muscle: string;
-  equipment: string;
-  difficulty: string;
-  instructions: string;
-  createdAt: Date;
-};
+import { Exercise } from "../utils/ExerciseProps";
 
 export const ExercisePage: React.FC = () => {
   const { state, dispatch, setEditingExercise } = useExerciseContext();

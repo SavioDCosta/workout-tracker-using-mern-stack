@@ -1,8 +1,8 @@
 import mongoose, { Schema, Document, Types } from "mongoose";
 
-// Interface for the subdocument schema for workouts in the workout plan
+// Interface for the subdocument schema for workouts in the WorkoutPlan document
 interface IWorkoutPlanWorkouts {
-  workoutId: Types.ObjectId;
+  workout: Types.ObjectId;
 }
 
 // Interface for the WorkoutPlan document
@@ -10,14 +10,14 @@ interface IWorkoutPlan extends Document {
   name: String;
   workouts: IWorkoutPlanWorkouts[];
   description: String;
-  created_by: Types.ObjectId;
+  createdBy: Types.ObjectId;
 }
 
 // Subdocument schema for workouts in the workout plan
 const workoutPlanWorkoutsSchema = new Schema<IWorkoutPlanWorkouts>(
   {
-    workoutId: {
-      type: mongoose.Schema.Types.ObjectId,
+    workout: {
+      type: Schema.Types.ObjectId,
       ref: "workout",
       required: true,
     },
@@ -37,8 +37,8 @@ const workoutPlanSchema = new Schema<IWorkoutPlan>(
       type: String,
       default: "",
     },
-    created_by: {
-      type: mongoose.Schema.Types.ObjectId,
+    createdBy: {
+      type: Schema.Types.ObjectId,
       ref: "user",
       required: true,
     },

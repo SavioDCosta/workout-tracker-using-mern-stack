@@ -4,21 +4,12 @@ import {
   // format, parseISO,
   formatDistanceToNow,
 } from "date-fns";
-import { Exercise } from "../pages/ExercisePage";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { Exercise } from "../utils/ExerciseProps";
 
 // Define the type for the exercise prop
 export type ExerciseProps = {
-  exercise: {
-    _id: string;
-    name: string;
-    type: string;
-    muscle: string;
-    equipment: string;
-    difficulty: string;
-    instructions: string;
-    createdAt: Date;
-  };
+  exercise: Exercise;
 };
 
 const ExerciseDetails: React.FC<ExerciseProps> = ({ exercise }) => {
@@ -82,7 +73,7 @@ const ExerciseDetails: React.FC<ExerciseProps> = ({ exercise }) => {
         {exercise.instructions}
       </p>
       <p>
-        <strong>Created: </strong>
+        <strong>Created : </strong>
         {/* {format(parseISO(exercise.createdAt.toString()), "MM-dd-yyyy HH:mm")} */}
         {formatDistanceToNow(new Date(exercise.createdAt), { addSuffix: true })}
       </p>

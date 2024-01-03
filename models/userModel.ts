@@ -2,7 +2,7 @@ import mongoose, { Schema, Document, Types } from "mongoose";
 
 // Interface for the user's workout plan
 interface IWorkoutPlans {
-  workoutPlanId: Types.ObjectId;
+  workoutPlan: Types.ObjectId;
 }
 
 // Interface for the User document
@@ -42,7 +42,7 @@ const userSchema = new Schema<IUser>(
     },
     workout_plans: [
       {
-        workoutPlanId: {
+        workoutPlan: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "workout_plan",
         },

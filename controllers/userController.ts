@@ -101,7 +101,7 @@ const userController = {
     try {
       const users = await userModel
         .find({})
-        .populate("workout_plans.workoutPlanId")
+        .populate("workout_plans.workoutPlan")
         .populate("current_workout_plan")
         .sort({ createdAt: -1 });
       return res.status(200).json(users);

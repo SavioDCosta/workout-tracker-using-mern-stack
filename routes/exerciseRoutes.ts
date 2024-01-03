@@ -4,7 +4,7 @@ import authCheckMiddleware from "../middleware/authCheckMiddleware";
 
 const router: Router = express.Router();
 
-// require auth for all exercise routes
+// require auth for all routes
 router.use(authCheckMiddleware);
 
 // Get exercises

@@ -2,7 +2,7 @@ import mongoose, { Schema, Document, Types } from "mongoose";
 
 // Interface for for exercises in the Workout document
 interface IWorkoutExercise {
-  exerciseId: Types.ObjectId;
+  exercise: Types.ObjectId;
   sets: Number;
   reps_from: Number;
   reps_to: Number;
@@ -21,7 +21,7 @@ interface IWorkout extends Document {
 // Subdocument schema for exercises in the workout
 const workoutExerciseSchema = new Schema<IWorkoutExercise>(
   {
-    exerciseId: {
+    exercise: {
       type: Schema.Types.ObjectId,
       ref: "exercise",
       required: true,

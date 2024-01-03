@@ -1,7 +1,11 @@
 import express, { Router } from "express";
 import workoutController from "../controllers/workoutController";
+import authCheckMiddleware from "../middleware/authCheckMiddleware";
 
 const router: Router = express.Router();
+
+// require auth for all routes
+// router.use(authCheckMiddleware);
 
 // Get workouts
 router.get("/", workoutController.getAllWorkouts);
